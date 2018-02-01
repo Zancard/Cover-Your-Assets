@@ -20,6 +20,15 @@ RUN p-ShuffleDeck.
 
 
 UPDATE inNumPlayers LABEL "How many are playing?" WITH FRAME frGamePrompts.
+IF inNumPlayers <= 0 THEN DO:
+    MESSAGE "Not enough players." VIEW-AS ALERT-BOX.
+    QUIT.
+END.
+/* More than 8 and I believe we should increase cards in the deck */
+ELSE IF inNumPlayers > 8 THEN DO:
+    MESSAGE "Current players limit is 8. Setting to 8" VIEW-AS ALERT-BOX.
+    ASSIGN inNumPlayers = 8.
+END.
 DO itx = 1 TO inNumPlayers:
     CREATE tt-player.
     ASSIGN tt-player.player-id = itx.
